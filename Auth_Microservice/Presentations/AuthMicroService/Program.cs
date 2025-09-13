@@ -1,0 +1,43 @@
+
+using Repositories.Contracts;
+using Repositories.EfCore;
+using Services.Contracts;
+using Services;
+using AuthMicroService.Controllers;
+
+namespace AuthMicroService
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddControllers()
+                .AddApplicationPart(typeof(AuthController).Assembly);
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+            builder.Services.AddRepositoryService(builder.Configuration);
+
+            var app = builder.Build();
+
+            DbSeeder.Seed(app.Services);
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+
+            app.MapControllers();
+
+            app.Run();
+        }
+    }
+}

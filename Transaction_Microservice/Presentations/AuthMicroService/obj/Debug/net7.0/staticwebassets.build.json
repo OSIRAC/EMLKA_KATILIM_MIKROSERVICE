@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "WzZhUaBZwKOFDU8JpdOhDvotSxFFwVqxI40ba8b6H1Q=",
+  "Source": "TransactionMicroService",
+  "BasePath": "_content/TransactionMicroService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
