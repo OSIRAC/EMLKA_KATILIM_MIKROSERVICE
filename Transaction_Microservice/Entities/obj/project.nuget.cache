@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "n909zHXJYRzsK3pqoVggFHNUTohQWkIxj4y1KveDrxwU5udPLNdqyrH3Nrc19369abp0Ox4jhowrbU4Me6S6Fw==",
+  "dgSpecHash": "m2gzpwI9hx6Dzud5seteN8APPown/9BzAE3/T0x7VdxUTzir16LOREN4QyxkoVxVs4ZiNcvbG42RAFLhiUTYMQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Huseyin\\OneDrive\\Masaüstü\\EMLAK_KATILIM\\Transaction_Microservice\\Entities\\Entities.csproj",
+  "projectFilePath": "C:\\Users\\Huseyin\\OneDrive\\Masaüstü\\EMLAK_KATILIM_ANA - Kopya\\Transaction_Microservice\\Entities\\Entities.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Huseyin\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\Huseyin\\.nuget\\packages\\mathnet.numerics\\5.0.0\\mathnet.numerics.5.0.0.nupkg.sha512",

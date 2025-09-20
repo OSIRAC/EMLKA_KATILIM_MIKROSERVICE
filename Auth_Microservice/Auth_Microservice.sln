@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{53E9F979-1879-4413-8083-0C2A4A323315}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{53E9F979-1879-4413-8083-0C2A4A323315}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{282CCF13-B98D-481C-9324-52130808E20E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{282CCF13-B98D-481C-9324-52130808E20E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{D0B10198-9C24-4AEC-A986-0885992F7B9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{D0B10198-9C24-4AEC-A986-0885992F7B9A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentations", "Presentations", "{4370E24D-23DF-43D4-8A56-60E080168B1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthMicroService", "Presentations\AuthMicroService\AuthMicroService.csproj", "{1B759DBB-45BA-4B00-8B97-ED7144F04A73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthMicroService", "Presentations\AuthMicroService\AuthMicroService.csproj", "{1B759DBB-45BA-4B00-8B97-ED7144F04A73}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{04CDF0CC-0326-4B72-AD2F-8C8674EE0981}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{1B759DBB-45BA-4B00-8B97-ED7144F04A73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B759DBB-45BA-4B00-8B97-ED7144F04A73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B759DBB-45BA-4B00-8B97-ED7144F04A73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04CDF0CC-0326-4B72-AD2F-8C8674EE0981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04CDF0CC-0326-4B72-AD2F-8C8674EE0981}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04CDF0CC-0326-4B72-AD2F-8C8674EE0981}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04CDF0CC-0326-4B72-AD2F-8C8674EE0981}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

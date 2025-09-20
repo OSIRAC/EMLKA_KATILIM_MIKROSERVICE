@@ -5,8 +5,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5220
+          "Host": "authservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/Auth/{everything}",
@@ -17,8 +17,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5230
+          "Host": "accountservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/Account/{everything}",
@@ -29,8 +29,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5240
+          "Host": "transactionservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/Transaction/{everything}",
@@ -41,4 +41,3 @@
     "BaseUrl": "http://localhost:5229"
   }
 }
-

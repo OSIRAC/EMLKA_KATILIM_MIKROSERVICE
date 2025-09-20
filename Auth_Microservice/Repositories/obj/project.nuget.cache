@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zaH1g9iLBOJS/IQSiSiU64apsMNg8Et/SkIr4ETU2ZiZZEapdjBSwClM+TzOyemQG65gulfaVKpfZigLZ3hQbQ==",
+  "dgSpecHash": "f4x38K9ZbwqlM644Wv5GZwtFNvVOmcroa1YcARzeesqa3aofiU5iYlh2Sx9akZuBGQaWlx2BgLPegd0b2r++rw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Huseyin\\OneDrive\\Masaüstü\\EMLAK_KATILIM\\Auth_Microservice\\Repositories\\Repositories.csproj",
+  "projectFilePath": "C:\\Users\\Huseyin\\OneDrive\\Masaüstü\\EMLAK_KATILIM_ANA - Kopya\\Auth_Microservice\\Repositories\\Repositories.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Huseyin\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\Huseyin\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",

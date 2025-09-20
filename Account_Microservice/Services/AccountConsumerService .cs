@@ -2,6 +2,8 @@
 using Entities.Dtos;
 using Entities.Models;
 using Microsoft.AspNetCore.Connections;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
@@ -18,21 +20,45 @@ namespace Services
 {
     public class AccountConsumerService : BackgroundService
     {
-        //private readonly IUnitOfWork _manager;
         private readonly IServiceProvider _serviceProvider;
-        public AccountConsumerService(IServiceProvider serviceProvider)
+        private readonly IConfiguration _configuration;
+
+        public AccountConsumerService(IServiceProvider serviceProvider, IConfiguration configuration)
         {
-            //_manager = manager;
+            _configuration = configuration;
             _serviceProvider = serviceProvider;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            ConnectionFactory factory = new();
-            factory.Uri = new("amqps://rygqtuzt:7i90WYLesGFMRlooYednzyqMxXF5NRg9@cougar.rmq.cloudamqp.com/rygqtuzt");
+            var rabbitConfig = _configuration.GetSection("RabbitMQ");
 
-            IConnection connection = await factory.CreateConnectionAsync();
-            IChannel channel = await connection.CreateChannelAsync();
+            var factory = new ConnectionFactory()
+            {
+                HostName = rabbitConfig["HostName"],
+                UserName = rabbitConfig["UserName"],
+                Password = rabbitConfig["Password"],
+                Port = int.Parse(rabbitConfig["Port"])
+            };
+
+            IConnection ?connection = null;
+            IChannel ?channel = null;
+
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                try
+                {
+                    connection = await factory.CreateConnectionAsync();
+                    channel =  await connection.CreateChannelAsync();
+                    Console.WriteLine("RabbitMQ bağlantısı başarılı!");
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine("RabbitMQ bağlanılamadı, 5 saniye bekleniyor...");
+                    await Task.Delay(5000, stoppingToken);
+                }
+            }
 
             await channel.ExchangeDeclareAsync(
                 exchange: "account-exchange",

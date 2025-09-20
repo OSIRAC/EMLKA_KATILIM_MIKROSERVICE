@@ -15,6 +15,7 @@ using Entities.Mapping;
 using AutoMapper;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Services.Redis;
 
 namespace Services
 {
@@ -28,6 +29,12 @@ namespace Services
             Services.AddScoped<IUserService, UserService>();
             Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             Services.AddScoped<JwtTokenGenerator>();
+            Services.AddScoped<Redis_Session>();
+
+            Services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "redis:6379";
+            });
             Services.AddAutoMapper(typeof(MapProfile).Assembly);
             Services.AddAuthentication(options =>
             {

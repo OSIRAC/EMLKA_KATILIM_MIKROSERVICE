@@ -1,0 +1,175 @@
+name: dockercompose10932109670758305572
+services:
+  accountmicroservice:
+    build:
+      context: C:\Users\Huseyin\OneDrive\Masaüstü\EMLAK_KATILIM_ANA - Kopya\Account_Microservice
+      dockerfile: Presentations/AuthMicroService/Dockerfile
+    container_name: accountservice
+    depends_on:
+      rabbitmq:
+        condition: service_started
+        required: true
+      redis:
+        condition: service_started
+        required: true
+      sqlserver:
+        condition: service_started
+        required: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    networks:
+      authnetwork: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "5001"
+        protocol: tcp
+  apigateway:
+    build:
+      context: C:\Users\Huseyin\OneDrive\Masaüstü\EMLAK_KATILIM_ANA - Kopya\ApiGateWay
+      dockerfile: ApiGateWay/Dockerfile
+    container_name: apigateway
+    depends_on:
+      accountmicroservice:
+        condition: service_started
+        required: true
+      authmicroservice:
+        condition: service_started
+        required: true
+      redis:
+        condition: service_started
+        required: true
+      transactionmicroservice:
+        condition: service_started
+        required: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      REDIS_CONNECTION: redis:6379
+    networks:
+      authnetwork: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "5229"
+        protocol: tcp
+  authmicroservice:
+    build:
+      context: C:\Users\Huseyin\OneDrive\Masaüstü\EMLAK_KATILIM_ANA - Kopya\Auth_Microservice
+      dockerfile: Presentations/AuthMicroService/Dockerfile
+    container_name: authservice
+    depends_on:
+      rabbitmq:
+        condition: service_started
+        required: true
+      redis:
+        condition: service_started
+        required: true
+      sqlserver:
+        condition: service_started
+        required: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    networks:
+      authnetwork: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "5000"
+        protocol: tcp
+      - mode: ingress
+        target: 80
+        protocol: tcp
+  rabbitmq:
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_PASS: mypassword
+      RABBITMQ_DEFAULT_USER: myuser
+    image: rabbitmq:3-management
+    networks:
+      authnetwork: null
+    ports:
+      - mode: ingress
+        target: 5672
+        published: "5672"
+        protocol: tcp
+      - mode: ingress
+        target: 15672
+        published: "15672"
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: rabbitmq_data
+        target: /var/lib/rabbitmq
+        volume: {}
+  redis:
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+    container_name: redis
+    image: redis:7.0
+    networks:
+      authnetwork: null
+    ports:
+      - mode: ingress
+        target: 6379
+        published: "6379"
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: redis_data
+        target: /data
+        volume: {}
+  sqlserver:
+    container_name: sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: YourStrong@Password123!
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    networks:
+      authnetwork: null
+    ports:
+      - mode: ingress
+        target: 1433
+        published: "1433"
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: sql_data
+        target: /var/opt/mssql
+        volume: {}
+  transactionmicroservice:
+    build:
+      context: C:\Users\Huseyin\OneDrive\Masaüstü\EMLAK_KATILIM_ANA - Kopya\Transaction_Microservice
+      dockerfile: Presentations/AuthMicroService/Dockerfile
+    container_name: transactionservice
+    depends_on:
+      rabbitmq:
+        condition: service_started
+        required: true
+      redis:
+        condition: service_started
+        required: true
+      sqlserver:
+        condition: service_started
+        required: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    networks:
+      authnetwork: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "5002"
+        protocol: tcp
+networks:
+  authnetwork:
+    name: authnetwork
+    driver: bridge
+volumes:
+  rabbitmq_data:
+    name: dockercompose10932109670758305572_rabbitmq_data
+  redis_data:
+    name: dockercompose10932109670758305572_redis_data
+  sql_data:
+    name: dockercompose10932109670758305572_sql_data

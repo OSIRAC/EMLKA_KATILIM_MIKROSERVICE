@@ -20,6 +20,7 @@ using System.Text.Json;
 using Microsoft.Identity.Client;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Principal;
+using Microsoft.Extensions.Configuration;
 
 namespace Services
 {
@@ -30,12 +31,14 @@ namespace Services
         private readonly IMapper _mapper;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IServiceScopeFactory _scopeFactory;
-        public TransactionService(IUnitOfWork manager, IMapper mapper, HttpClient httpClient,IHttpClientFactory httpClientFactory, IServiceScopeFactory scopeFactory)
+        private readonly IConfiguration _configuration;
+        public TransactionService(IUnitOfWork manager, IMapper mapper, HttpClient httpClient,IHttpClientFactory httpClientFactory, IServiceScopeFactory scopeFactory, IConfiguration configuration)
         {
             _manager = manager;
             _mapper = mapper;
             _httpClientFactory = httpClientFactory;
             _scopeFactory = scopeFactory;
+            _configuration = configuration;
         }
 
         private void SaveTransaction(IUnitOfWork manager, Transaction transaction, Transaction_Status status)
@@ -57,11 +60,11 @@ namespace Services
 
             var httpClient = _httpClientFactory.CreateClient();
             var response = await httpClient.GetAsync(
-                        $"http://localhost:5230/api/Account/get-account/{dto.AccountId}");
+                        $"http://accountservice:80/api/Account/get-account/{dto.AccountId}");
             try
             {    
                 if (!response.IsSuccessStatusCode)
-                    throw new InvalidOperationException("Hedef hesap bulunamadı.");          
+                    throw new InvalidOperationException("Ana hesap bulunamadı.");          
             }
             catch
             {
@@ -78,7 +81,7 @@ namespace Services
                         throw new InvalidOperationException("Hedef hesap belirtilmeli.");
 
                     var target_response = await httpClient.GetAsync(
-                                 $"http://localhost:5230/api/Account/get-account/{dto.TargetAccountId}");
+                                 $"http://accountservice:80/api/Account/get-account/{dto.TargetAccountId}");
 
                     if (!target_response.IsSuccessStatusCode)
                         throw new InvalidOperationException("Hedef hesap bulunamadı.");
@@ -93,7 +96,7 @@ namespace Services
             {
                 try
                 {
-                    if (account.Balance < dto.Amount)
+                    if ((account.Balance < dto.Amount) && dto.Type == Transaction_Type.Withdraw)
                         throw new InvalidOperationException("Yetersiz bakiye.");
 
                     if (dto.TargetAccountId.HasValue)
@@ -107,13 +110,20 @@ namespace Services
                     SaveTransaction(_manager, transaction, Transaction_Status.Failed);
                     throw;
                 }
-            }           
-            ConnectionFactory factory = new();
-            factory.Uri = new("amqps://rygqtuzt:7i90WYLesGFMRlooYednzyqMxXF5NRg9@cougar.rmq.cloudamqp.com/rygqtuzt");
+            }
+            var rabbitConfig = _configuration.GetSection("RabbitMQ");
+
+            var factory = new ConnectionFactory()
+            {
+                HostName = rabbitConfig["HostName"],
+                UserName = rabbitConfig["UserName"],
+                Password = rabbitConfig["Password"],
+                Port = int.Parse(rabbitConfig["Port"])
+            };
 
             IConnection connection = await factory.CreateConnectionAsync();
             IChannel channel = await connection.CreateChannelAsync();
-
+            
             await channel.ExchangeDeclareAsync(
                     exchange: "account-exchange",
                     type: ExchangeType.Direct               

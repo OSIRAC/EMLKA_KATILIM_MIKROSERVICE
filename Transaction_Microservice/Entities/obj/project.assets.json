@@ -163,11 +163,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Huseyin\\OneDrive\\Masaüstü\\EMLAK_KATILIM\\Transaction_Microservice\\Entities\\Entities.csproj",
+      "projectUniqueName": "C:\\Users\\Huseyin\\OneDrive\\Masaüstü\\EMLAK_KATILIM_ANA - Kopya\\Transaction_Microservice\\Entities\\Entities.csproj",
       "projectName": "Entities",
-      "projectPath": "C:\\Users\\Huseyin\\OneDrive\\Masaüstü\\EMLAK_KATILIM\\Transaction_Microservice\\Entities\\Entities.csproj",
+      "projectPath": "C:\\Users\\Huseyin\\OneDrive\\Masaüstü\\EMLAK_KATILIM_ANA - Kopya\\Transaction_Microservice\\Entities\\Entities.csproj",
       "packagesPath": "C:\\Users\\Huseyin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Huseyin\\OneDrive\\Masaüstü\\EMLAK_KATILIM\\Transaction_Microservice\\Entities\\obj\\",
+      "outputPath": "C:\\Users\\Huseyin\\OneDrive\\Masaüstü\\EMLAK_KATILIM_ANA - Kopya\\Transaction_Microservice\\Entities\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -11,12 +11,10 @@ namespace AuthMicroService.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly JwtTokenGenerator _tokenGenerator;
         private readonly IAccountService _userService;
 
-        public AccountController(JwtTokenGenerator tokenGenerator, IAccountService userService)
+        public AccountController(IAccountService userService)
         {
-            _tokenGenerator = tokenGenerator;
             _userService = userService;
         }
 

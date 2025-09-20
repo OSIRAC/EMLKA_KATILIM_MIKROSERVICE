@@ -4,6 +4,9 @@ using Repositories.EfCore;
 using Services.Contracts;
 using Services;
 using AuthMicroService.Controllers;
+using Microsoft.EntityFrameworkCore;
+using Polly;
+using Microsoft.Data.SqlClient;
 
 namespace AuthMicroService
 {
@@ -21,6 +24,18 @@ namespace AuthMicroService
 
             var app = builder.Build();
 
+            var policy = Policy
+                .Handle<SqlException>()
+                .WaitAndRetry(10, attempt => TimeSpan.FromSeconds(2));
+
+            policy.Execute(() =>
+            {
+                using var scope = app.Services.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<RepositoryContext>();
+                db.Database.Migrate();
+            });
+
+           
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -28,7 +43,7 @@ namespace AuthMicroService
             }
 
             app.UseHttpsRedirection();
-
+            app.UseMiddleware<jwtMiddleware>();
             app.UseAuthentication();
             app.UseAuthorization();
 

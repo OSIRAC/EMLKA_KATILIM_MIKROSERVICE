@@ -22,5 +22,7 @@ namespace Services.Contracts
         void AssignRoleToUser(int userId, string roleName);
 
         void RemoveRoleToUser(int userId, string roleName);
+
+        public void Logout(int userId);
     }
 }

@@ -3,6 +3,7 @@ using Entities.Dtos;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Repositories.Contracts;
 using Services.Contracts;
 using System;
@@ -19,11 +20,13 @@ namespace Services
         private readonly IUnitOfWork _manager;
         private readonly IMapper _mapper;
         private readonly IPasswordHasher<User> _passwordHasher;
-        public UserService(IUnitOfWork manager, IMapper mapper, IPasswordHasher<User> passwordHasher)
+        private readonly IDistributedCache _distributedCache;
+        public UserService(IUnitOfWork manager, IMapper mapper, IPasswordHasher<User> passwordHasher, IDistributedCache distributedCache)
         {
             _manager = manager;
             _mapper = mapper;
             _passwordHasher = passwordHasher;
+            _distributedCache = distributedCache;
         }
 
         public void Register(RegisterDto dto)
@@ -138,6 +141,11 @@ namespace Services
 
             User.Role.Remove(role_user);
             _manager.Save();
+        }
+
+        public void Logout(int userId)
+        {
+            _distributedCache.Remove($"session:{userId}");
         }
 
     }

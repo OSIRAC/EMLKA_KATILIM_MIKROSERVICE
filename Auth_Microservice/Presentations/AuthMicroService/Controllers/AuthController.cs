@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using Services.Contracts;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace AuthMicroService.Controllers
@@ -94,5 +95,19 @@ namespace AuthMicroService.Controllers
                 return BadRequest(new { error = ex.Message });
             }
         }
+
+        [Authorize]
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var jwt = handler.ReadJwtToken(token);
+            var userId = int.Parse(jwt.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+
+            _userService.Logout(userId);
+            return Ok("Çıkış Yapıldı");
+        }
+
     }
 }

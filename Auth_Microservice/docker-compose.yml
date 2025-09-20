@@ -1,0 +1,117 @@
+version: '3.9'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Password123!
+    ports:
+      - "1433:1433"
+    networks:
+      - authnetwork
+    volumes:
+      - sql_data:/var/opt/mssql
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=myuser
+      - RABBITMQ_DEFAULT_PASS=mypassword
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - authnetwork
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  redis:
+    image: redis:7.0
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - authnetwork
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+
+  authmicroservice:
+    build:
+      context: .
+      dockerfile: Presentations/AuthMicroService/Dockerfile
+    container_name: authservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - sqlserver
+      - rabbitmq
+      - redis
+    ports:
+      - "5000:80"
+    networks:
+      - authnetwork
+
+  accountmicroservice:
+    build:
+      context: ../Account_Microservice
+      dockerfile: Presentations/AuthMicroService/Dockerfile
+    container_name: accountservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - sqlserver
+      - rabbitmq
+      - redis
+    ports:
+      - "5001:80"
+    networks:
+      - authnetwork
+
+  transactionmicroservice:
+    build:
+      context: ../Transaction_Microservice
+      dockerfile: Presentations/AuthMicroService/Dockerfile
+    container_name: transactionservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - sqlserver
+      - rabbitmq
+      - redis
+    ports:
+      - "5002:80"
+    networks:
+      - authnetwork
+
+  apigateway:
+    build:
+      context: ../ApiGateWay
+      dockerfile: ApiGateWay/Dockerfile
+    container_name: apigateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - REDIS_CONNECTION=redis:6379
+    depends_on:
+      - authmicroservice
+      - accountmicroservice
+      - transactionmicroservice
+      - redis
+    ports:
+      - "5229:80"
+    networks:
+      - authnetwork
+
+networks:
+  authnetwork:
+    name: authnetwork
+    driver: bridge
+
+volumes:
+  sql_data:
+  rabbitmq_data:
+  redis_data:
+

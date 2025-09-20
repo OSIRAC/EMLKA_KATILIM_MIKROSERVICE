@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "sAJa3cTF8JCVSpMwnD8QlrYwoWJdlAGhZ5RCAxRClnrVTglZj/gDg+JLLrI7mZ9dbJcoYWtEQy/c5W5qeRLs+g==",
+  "dgSpecHash": "PJIqyHUYWP6yqSczNzxS9qDJ+o0s/Q17iL19jMtLNcVTIUD3XmduekXyERBD2/FVHEycE/qUFKOPGznGlc9Leg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Huseyin\\OneDrive\\Masaüstü\\EMLAK_KATILIM\\Account_Microservice\\Entities\\Entities.csproj",
+  "projectFilePath": "C:\\Users\\Huseyin\\OneDrive\\Masaüstü\\EMLAK_KATILIM_ANA - Kopya\\Account_Microservice\\Entities\\Entities.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Huseyin\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\Huseyin\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512"

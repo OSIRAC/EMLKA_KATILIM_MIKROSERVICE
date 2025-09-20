@@ -13,14 +13,11 @@ namespace AuthMicroService.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
-        private readonly JwtTokenGenerator _tokenGenerator;
         private readonly ITransactionService _transactionService;
         
-        public TransactionController(JwtTokenGenerator tokenGenerator, ITransactionService transactionrService)
+        public TransactionController(ITransactionService transactionrService)
         {
-            _tokenGenerator = tokenGenerator;
-            _transactionService = transactionrService;
-            
+            _transactionService = transactionrService;     
         }
         [Authorize]
         [HttpPost("operation")]
